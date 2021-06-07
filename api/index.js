@@ -173,7 +173,7 @@ app.post("/api/record", (req,res) => {
 app.get("/api/patient/:id", (req,res)=> {
 
     let id = req.params.id;
-     p_Data.find({patient_id: id}, (err, value) => {
+     p_Data.find({_id: id}, (err, value) => {
     
         if(err) res.status(400).json("Bad Request");
         res.json(value);

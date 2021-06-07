@@ -25,15 +25,29 @@ function getPatients() {
 
 }
 
-function getPosition(id) {
+// function getPosition(id) {
 
-    return fetch("http://localhost:5000/api/record"+ id)
-        .then((res) => res.json())
-        .then ((json)=> {
-            console.log(json);
-            var position = json;
-            return position;
-        });
+//     return fetch("http://localhost:5000/api/record/"+ id)
+//         .then((res) => res.json())
+//         .then ((json)=> {
+//             console.log(json);
+//             var position = json;
+//             return position;
+//         });
+// }
+
+var recordPath = "http://localhost:5000/api/record/";
+
+function getPosition(id){
+
+    return fetch(recordPath + id).then(res => res.json()).then(json => json);
+}
+
+async function getPos(id){
+    let record = await getPosition(id);
+    console.log(record.position);
+    position = record.position;
+    return position;
 }
 
 
@@ -44,7 +58,7 @@ getPatients().then( patients =>
     // Create card element
     const card = document.createElement('div');
     card.classList = 'card-body';
-    result.position= getPosition(result.patient_id).position;
+    result.position= getPos(result._id);
     // Construct card content
     const content = `
     <div class="card" id="heading-${idx}"  style="width: 300px">
@@ -53,8 +67,8 @@ getPatients().then( patients =>
       <h4 class="card-title">Patient</h4>
       <p class="card-text">Name: ${result.f_name} ${result.l_name}</p>
       <p class="card-text">Position: ${result.position}</p>
-      <a href="#" class="btn btn-warning">Edit</a>
-      <a href="#" class="btn btn-danger">Delete</a>
+      <a href="/add_patient" class="btn btn-warning">Edit</a>
+      <a href="" class="btn btn-danger">Delete</a>
     </div>
   </div>
     `;
